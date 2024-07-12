@@ -1,3 +1,13 @@
+function showImage(event) {
+    event.preventDefault();
+    var photo = document.getElementById('photo');
+    if (photo.style.display === 'none' || photo.style.display === '') {
+        photo.style.display = 'block';
+    } else {
+        photo.style.display = 'none';
+    }
+}
+
 document.getElementById('fileInput').addEventListener('change', function(event) {
     var fileName = this.files[0].name;
     document.getElementById('currentFile').innerHTML = '当前文件: ' + fileName;
@@ -18,7 +28,6 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
             var percentComplete = Math.round((event.loaded / event.total) * 100);
             progressBar.style.width = percentComplete + '%';
             progressBar.innerHTML = percentComplete + '%';
-            progressBar.style.left = '50%'; /* 保持文字在进度条中央 */
         }
 
         var currentTime = new Date().getTime();
