@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Upload and Download</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrQdP1PjVYpXJvnK2fH0D0+UJQ4btW7OhwaWYwqE1Z6TcX-UV1EFBxO3/dtO4RkaJ9V6qvv3hPlVTV1K0A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -12,7 +16,7 @@
         <h1>上传文件</h1>
         <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload">
             <div class="upload-btn-wrapper">
-                <button class="btn">选择文件</button>
+                <button class="btn"><i class="fas fa-upload"></i> 选择文件</button>
                 <input id="fileInput" type="file" name="file" required>
             </div>
             <div class="current-file" id="currentFile">未选择文件</div>
@@ -22,14 +26,15 @@
                     <option value="">选择分类</option>
                     <option value="补丁">补丁</option>
                     <option value="galgame">galgame</option>
-                    <option value="想传啥传啥">想传啥传啥</option>
+                    <option value="本子">本子（别传重口，文件名别一看就是本子！）</option>
                 </select>
             </div>
-            <button id="uploadBtn" type="submit" class="btn" style="background-color: #4CAF50; margin-top: 20px;">上传文件</button>
+            <button id="uploadBtn" type="submit" class="btn" style="background-color: #4CAF50; margin-top: 20px;"><i class="fas fa-cloud-upload-alt"></i> 上传文件</button>
         </form>
         <div class="progress">
             <div id="progressBar" class="progress-bar">0%</div>
         </div>
+        <div id="uploadSpeed" class="upload-speed">网速: 0 KB/s</div>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="messages">
@@ -44,9 +49,9 @@
         <h1>下载文件</h1>
         <div class="category-buttons">
             <!-- 分类按钮 -->
-            <button onclick="showCategory('补丁')">补丁</button>
-            <button onclick="showCategory('galgame')">galgame</button>
-            <button onclick="showCategory('想传啥传啥')">想传啥传啥</button>
+            <button onclick="showCategory('补丁')"><i class="fas fa-tools"></i> 补丁</button>
+            <button onclick="showCategory('galgame')"><i class="fas fa-gamepad"></i> galgame</button>
+            <button onclick="showCategory('本子')"><i class="fas fa-random"></i> 本子（别传重口，文件名别一看就是本子！）</button>
         </div>
         <div class="download-section">
             <!-- 文件列表按分类显示 -->
@@ -55,7 +60,7 @@
                     <h2>{{ category }}</h2>
                     <ul>
                         {% for filename in files %}
-                            <li><a href="{{ url_for('download_file', filename=filename) }}">{{ filename }}</a></li>
+                            <li><a href="{{ url_for('download_file', filename=filename) }}"><i class="fas fa-download"></i> {{ filename }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

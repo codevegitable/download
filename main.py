@@ -1,44 +1,54 @@
-from flask import Flask, request, redirect, url_for, render_template, send_from_directory, flash
+from flask import Flask, request, redirect, url_for, render_template, flash, send_from_directory
 import os
-from collections import defaultdict
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['SECRET_KEY'] = 'supersecretkey'
+app.secret_key = 'supersecretkey'
 
-# 确保上传文件夹存在
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+# 获取用户的主目录
+home_dir = os.path.expanduser('~')
+upload_folder = os.path.join(home_dir, 'uploads')
+app.config['UPLOAD_FOLDER'] = upload_folder
 
-# 用于存储文件分类的字典
-file_categories = defaultdict(list)
+# 创建上传文件夹
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
 
-@app.route('/', methods=['GET'])
+# 主页
+@app.route('/')
 def index():
-    categorized_files = defaultdict(list)
-    for filename, category in file_categories.items():
-        categorized_files[category].append(filename)
+    categorized_files = {
+        '补丁': [],
+        'galgame': [],
+        '本子': []
+    }
+    
+    # 添加新的分类（可以在这里添加新的分类）
+    # categorized_files['新的分类'] = []
+    
+    for filename in os.listdir(app.config['UPLOAD_FOLDER']):
+        category = filename.split('_')[0]
+        if category in categorized_files:
+            categorized_files[category].append(filename)
+    
     return render_template('index.html', categorized_files=categorized_files)
 
+# 文件上传
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    if 'file' not in request.files:
-        flash('No file part')
-        return redirect(url_for('index'))
     file = request.files['file']
     category = request.form['category']
-    if file.filename == '':
-        flash('No selected file')
-        return redirect(url_for('index'))
-    if file:
-        filename = file.filename
+    if file and category:
+        filename = category + '_' + file.filename
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        file_categories[filename] = category
-        flash('File successfully uploaded')
-        return redirect(url_for('index'))
+        flash('文件上传成功')
+    else:
+        flash('请填写所有字段')
+    return redirect(url_for('index'))
 
+# 文件下载
 @app.route('/uploads/<filename>')
 def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0')
