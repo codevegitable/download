@@ -1,4 +1,4 @@
-function showImage(event) {
+document.getElementById('showImageLink').addEventListener('click', function(event) {
     event.preventDefault();
     var photo = document.getElementById('photo');
     if (photo.style.display === 'none' || photo.style.display === '') {
@@ -6,7 +6,11 @@ function showImage(event) {
     } else {
         photo.style.display = 'none';
     }
-}
+});
+
+document.getElementById('chooseFileBtn').addEventListener('click', function() {
+    document.getElementById('fileInput').click();
+});
 
 document.getElementById('fileInput').addEventListener('change', function(event) {
     var fileName = this.files[0].name;

@@ -16,21 +16,21 @@
         <!-- 导航栏 -->
         <nav class="navbar">
             <ul>
-                <li><a href="{{ url_for('static', filename='wx.jpg')}}" onclick="showImage(event)"><i class="fas fa-image"></i>没钱的时候点一下/(ㄒoㄒ)/~~</a></li>
+                <li><a href="{{ url_for('static', filename='wx.jpg') }}" id="showImageLink"><i class="fas fa-image"></i>没钱的时候点一下/(ㄒoㄒ)/~~</a></li>
                 <li><a href="https://github.com/codevegitable/download" target="_blank"><i class="fas fa-link"></i>GitHub站点</a></li>
             </ul>
         </nav>
 
         <!-- 图片显示区域 -->
         <div id="photo" style="display: none;">
-            <img src="{{ url_for('static', filename='path_to_your_image.jpg') }}" alt="显示图片">
+            <img src="path_to_your_image.jpg" alt="显示图片">
         </div>
 
         <h1 id="upload">上传文件</h1>
         <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload">
             <div class="upload-btn-wrapper">
-                <button class="btn"><i class="fas fa-upload"></i> 选择文件</button>
-                <input id="fileInput" type="file" name="file" required>
+                <button class="btn" type="button" id="chooseFileBtn"><i class="fas fa-upload"></i> 选择文件</button>
+                <input id="fileInput" type="file" name="file" required style="display: none;">
             </div>
             <div class="current-file" id="currentFile">未选择文件</div>
             <div class="category-input">
