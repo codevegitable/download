@@ -16,14 +16,14 @@
         <!-- 导航栏 -->
         <nav class="navbar">
             <ul>
-                <li><a href="#" onclick="showImage(event)"><i class="fas fa-image"></i> 显示图片</a></li>
-                <li><a href="https://example.com" target="_blank"><i class="fas fa-link"></i> 前往网站</a></li>
+                <li><a href="{{ url_for('static', filename='wx.jpg')}}" onclick="showImage(event)"><i class="fas fa-image"></i>没钱的时候点一下/(ㄒoㄒ)/~~</a></li>
+                <li><a href="https://github.com/codevegitable/download" target="_blank"><i class="fas fa-link"></i>GitHub站点</a></li>
             </ul>
         </nav>
 
         <!-- 图片显示区域 -->
         <div id="photo" style="display: none;">
-            <img src="path_to_your_image.jpg" alt="显示图片">
+            <img src="{{ url_for('static', filename='path_to_your_image.jpg') }}" alt="显示图片">
         </div>
 
         <h1 id="upload">上传文件</h1>
