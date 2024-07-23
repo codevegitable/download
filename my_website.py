@@ -2,7 +2,7 @@ import requests
 import re
 from pyquery import PyQuery as pq
 
-url = 'http://121.41.73.5:5000'
+url = ''
 html = requests.get(url=url).text
 doc = pq(html)
 items = doc('.download-section').items()
